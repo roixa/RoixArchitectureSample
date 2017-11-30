@@ -10,9 +10,9 @@ import kotlin.reflect.KClass
 
 
 @Module(includes = arrayOf(
-        ScreensModule::class
-        ,
-        RepositoriesModule::class
+        AppModule::class
+        ,ScreensModule::class
+        ,RepositoriesModule::class
 ))
 @Singleton
 class CommonModule

@@ -1,4 +1,4 @@
-package com.roix.mvvm_archtecture_sample.ui.main
+package com.roix.mvvm_archtecture_sample.ui.main.views
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

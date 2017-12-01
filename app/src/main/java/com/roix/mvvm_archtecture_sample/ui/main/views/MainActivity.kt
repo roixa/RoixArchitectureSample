@@ -1,11 +1,13 @@
 package com.roix.mvvm_archtecture_sample.ui.main.views
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.roix.mvvm_archtecture_sample.R
+import com.roix.mvvm_archtecture_sample.ui.main.viewmodels.MainViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

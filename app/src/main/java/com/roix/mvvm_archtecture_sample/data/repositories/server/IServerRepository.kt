@@ -1,5 +1,6 @@
 package com.roix.mvvm_archtecture_sample.data.repositories.server
 
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**

@@ -13,7 +13,7 @@ import com.roix.mvvm_archtecture_sample.dagger.main.MainModule
 class CommonApplication : Application() {
 
     companion object {
-        @JvmStatic lateinit var appComponent:AppComponent;
+        @JvmStatic lateinit var appComponent:AppComponent
     }
 
     override fun onCreate() {

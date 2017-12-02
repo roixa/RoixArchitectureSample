@@ -1,43 +1,32 @@
 package com.roix.mvvm_archtecture_sample.ui.main.views
 
-import android.arch.lifecycle.ViewModelProviders
-import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.support.v7.widget.Toolbar
+import android.util.Log
 import com.roix.mvvm_archtecture_sample.R
+import com.roix.mvvm_archtecture_sample.databinding.ActivityMainBinding
+import com.roix.mvvm_archtecture_sample.ui.common.BaseDatabindingActivity
 import com.roix.mvvm_archtecture_sample.ui.main.viewmodels.MainViewModel
+import kotlinx.android.synthetic.main.toolbar.view.*
 
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseDatabindingActivity<MainViewModel, ActivityMainBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+
+    override fun getToolbar(): Toolbar? = binding.tb.toolbar
+
+    override fun getLayoutId(): Int = R.layout.activity_main
+
+
+    override fun setupUi() {
+        super.setupUi()
+
+        viewModel.requestTest.sub{s->
+            binding.tvTest.text = s
+            Log.d("roixa", "sub in view" + s)
+
         }
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
+
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }

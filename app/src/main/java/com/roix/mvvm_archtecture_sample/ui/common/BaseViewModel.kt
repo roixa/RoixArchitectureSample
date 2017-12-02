@@ -1,19 +1,28 @@
 package com.roix.mvvm_archtecture_sample.ui.common
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.LiveDataReactiveStreams
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.CallSuper
+import android.util.Log
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
 import com.roix.mvvm_archtecture_sample.dagger.common.DaggerAppComponent
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Publisher
+import java.util.concurrent.Executor
+import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * Created by belyalov on 01.12.2017.
  */
-open abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
+
+    private var viewsCount = 0
 
     val loadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
@@ -26,30 +35,57 @@ open abstract class BaseViewModel : ViewModel() {
         doInject(CommonApplication.appComponent)
     }
 
-    fun <T> Observable<T>.toLiveData(): LiveData<T> {
-        withLoadingHandle()
-        withDefaultShedulers()
+    @CallSuper
+    fun onBindView() {
+        if (viewsCount == 0) {
+            onBindFirstView()
+        }
+        viewsCount++
+    }
+
+    protected open fun onBindFirstView() {}
+
+
+    fun <T> toLiveData(observable: Observable<T>): LiveData<T> {
         val ret = MutableLiveData<T>()
-        subscribe({ t -> ret.postValue(t) }, { t -> errorLiveData.postValue(t) })
+
+        observable
+                .withDefaultShedulers()
+                .withLoadingHandle()
+
+                .subscribe({ t ->
+                    run {
+                        ret.value=t
+                        Log.d("roixa", "in toLiveData observeble subscribe " + t)
+
+                        Log.d("roixa", "Back on the original thread:  " + Thread.currentThread().name)
+                    }
+                }, { t -> errorLiveData.value = t })
+
         return ret
     }
 
     fun <T> Observable<T>.withLoadingHandle(): Observable<T> {
-        doOnSubscribe({ loadingLiveData.postValue(true) })
-        doAfterTerminate({ loadingLiveData.postValue(false) })
-        return this
+        return doOnSubscribe({ loadingLiveData.postValue(true) }).
+                    doAfterTerminate({ loadingLiveData.postValue( false) })
+
+
     }
 
     fun <T> Observable<T>.withDefaultShedulers(): Observable<T> {
-        observeOn(Schedulers.io())
-        subscribeOn(AndroidSchedulers.mainThread())
-        return this
+        return subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun <T> Observable<T>.sub(viewModel: BaseViewModel, function: () -> T) {
-        withLoadingHandle()
-        withDefaultShedulers()
-        subscribe({function},{t -> errorLiveData.postValue(t) })
+    fun <T> Observable<T>.sub(function: (T) -> Unit) {
+        withLoadingHandle().
+        withDefaultShedulers().
+        subscribe({ T ->
+            function.invoke(T)
+        }, { t -> errorLiveData.postValue( t) })
     }
+
+    fun <T> Single<T>.sub(function: (T) -> Unit) = this.toObservable().sub { T -> function.invoke(T) }
+
 
 }

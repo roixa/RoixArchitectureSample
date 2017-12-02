@@ -1,5 +1,6 @@
 package com.roix.mvvm_archtecture_sample.data.repositories.server
 
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -8,7 +9,7 @@ import io.reactivex.Single
 class ServerRepository:IServerRepository {
     override fun getTestRequest(): Single<String> {
         return Single.create { s->
-            Thread.sleep(1000)
+            Thread.sleep(2000)
             s.onSuccess("Hello")
         }
     }

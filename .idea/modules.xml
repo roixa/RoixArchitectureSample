@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RoixArchitectureSample.iml" filepath="$PROJECT_DIR$/RoixArchitectureSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MVVM_Archtecture_sample.iml" filepath="$PROJECT_DIR$/MVVM_Archtecture_sample.iml" />
+      <module fileurl="file://C:\Users\roix\AndroidStudioProjects\MVVM_Archtecture_sample\RoixArchitectureSample.iml" filepath="C:\Users\roix\AndroidStudioProjects\MVVM_Archtecture_sample\RoixArchitectureSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

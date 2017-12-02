@@ -1,9 +1,10 @@
 package com.roix.mvvm_archtecture_sample.ui.common
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ProgressDialog
-import android.arch.lifecycle.*
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.IdRes
@@ -73,11 +74,11 @@ abstract class BaseLifecycleActivity<vm : BaseViewModel> : AppCompatActivity() {
     }
 
     protected fun <T> Observable<T>.sub(func: (T) -> Unit) {
-        viewModel.toLiveData(this).sub(func)
+        viewModel.toLiveDataFun(this).sub(func)
     }
 
     protected fun <T> Single<T>.sub(func: (T) -> Unit) {
-        viewModel.toLiveData(this.toObservable()).sub(func)
+        viewModel.toLiveDataFun(this.toObservable()).sub(func)
     }
 
     private fun getViewModelJavaClass(): Class<vm> {

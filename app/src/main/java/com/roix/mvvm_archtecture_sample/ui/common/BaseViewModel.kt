@@ -1,21 +1,15 @@
 package com.roix.mvvm_archtecture_sample.ui.common
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.CallSuper
-import android.util.Log
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
-import com.roix.mvvm_archtecture_sample.dagger.common.DaggerAppComponent
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Publisher
-import java.util.concurrent.Executor
-import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * Created by belyalov on 01.12.2017.
@@ -46,24 +40,23 @@ abstract class BaseViewModel : ViewModel() {
     protected open fun onBindFirstView() {}
 
 
-    fun <T> toLiveData(observable: Observable<T>): LiveData<T> {
+    fun <T> toLiveDataFun(observable: Observable<T>): LiveData<T> {
         val ret = MutableLiveData<T>()
-
         observable
                 .withDefaultShedulers()
                 .withLoadingHandle()
-
                 .subscribe({ t ->
                     run {
                         ret.value=t
-                        Log.d("roixa", "in toLiveData observeble subscribe " + t)
-
-                        Log.d("roixa", "Back on the original thread:  " + Thread.currentThread().name)
                     }
                 }, { t -> errorLiveData.value = t })
 
         return ret
     }
+
+    fun <T> Observable<T>.toLiveData():LiveData<T> = this@BaseViewModel.toLiveDataFun(this)
+
+    fun <T> Single<T>.toLiveData():LiveData<T> = this@BaseViewModel.toLiveDataFun(this.toObservable())
 
     fun <T> Observable<T>.withLoadingHandle(): Observable<T> {
         return doOnSubscribe({ loadingLiveData.postValue(true) }).

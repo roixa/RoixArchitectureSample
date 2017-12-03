@@ -11,6 +11,7 @@ import android.support.annotation.IdRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import com.roix.mvvm_archtecture_sample.R
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.reflect.ParameterizedType
@@ -38,12 +39,11 @@ abstract class BaseLifecycleActivity<vm : BaseViewModel> : AppCompatActivity() {
         setupUi()
     }
 
-    @CallSuper
     protected open fun setupUi() {
         Log.d("roixa", "setupUi")
 
         progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("")
+        progressDialog.setMessage(getString(R.string.text_dialog_progress))
         progressDialog.setCancelable(false)
 
         viewModel.loadingLiveData.sub { b -> handleProgress(b) }

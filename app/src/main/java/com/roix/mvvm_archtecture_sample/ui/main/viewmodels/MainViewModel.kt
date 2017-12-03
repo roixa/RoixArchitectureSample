@@ -3,20 +3,16 @@ package com.roix.mvvm_archtecture_sample.ui.main.viewmodels
 import com.roix.mvvm_archtecture_sample.buissness.main.IMainInteractor
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
 import com.roix.mvvm_archtecture_sample.ui.common.BaseViewModel
-import io.reactivex.Single
+import com.roix.mvvm_archtecture_sample.utils.extensions.setValueNoHistory
 import javax.inject.Inject
 
 /**
  * Created by roix on 30.11.2017.
  */
-class MainViewModel : BaseViewModel(), IMainViewModel {
+class MainViewModel : BaseViewModel() {
 
     @Inject
     protected lateinit var mainInteractor: IMainInteractor
-
-    val requestTest by lazy {
-        mainInteractor.testRequest().toLiveData()
-    }
 
     override fun doInject(appComponent: AppComponent) {
         appComponent.inject(this)
@@ -26,13 +22,17 @@ class MainViewModel : BaseViewModel(), IMainViewModel {
         super.onBindFirstView()
 
         mainInteractor.testRequest().sub { s ->
-            run {
-                showMessageDialogLiveData.postValue(s)
-            }
+                showMessageDialogLiveData.setValueNoHistory(s)
+                requestTestObservableField.set(s)
         }
     }
 
-    override fun getTestRequest(): Single<String> = mainInteractor.testRequest()
+    val requestTestLiveData by lazy {
+        mainInteractor.testRequest().map { t -> t }.toLiveData()
+    }
 
+    val requestTestObservableField by lazy {
+        mainInteractor.testRequest().toObserverbleField()
+    }
 
 }

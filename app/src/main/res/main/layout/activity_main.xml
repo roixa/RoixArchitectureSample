@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.roix.mvvm_archtecture_sample.ui.main.viewmodels.MainViewModel"/>
+
+    </data>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -10,7 +18,7 @@
             />
         <TextView
             android:id="@+id/tvTest"
-            android:text="@string/app_name"
+            android:text="@{viewmodel.requestTestObservableField}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

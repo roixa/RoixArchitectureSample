@@ -28,11 +28,11 @@ class MainViewModel : BaseViewModel() {
     }
 
     val requestTestLiveData by lazy {
-        mainInteractor.testRequest().map { t -> t }.toLiveData()
+        mainInteractor.testRequest().map { t -> t }.subInLiveData()
     }
 
     val requestTestObservableField by lazy {
-        mainInteractor.testRequest().toObserverbleField()
+        mainInteractor.testRequest().subInObserverbleField()
     }
 
 }

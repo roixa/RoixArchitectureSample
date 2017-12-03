@@ -74,11 +74,11 @@ abstract class BaseLifecycleActivity<vm : BaseViewModel> : AppCompatActivity() {
     }
 
     protected fun <T> Observable<T>.sub(func: (T) -> Unit) {
-        viewModel.toLiveDataFun(this).sub(func)
+        viewModel.subInLiveDataFun(this).sub(func)
     }
 
     protected fun <T> Single<T>.sub(func: (T) -> Unit) {
-        viewModel.toLiveDataFun(this.toObservable()).sub(func)
+        viewModel.subInLiveDataFun(this.toObservable()).sub(func)
     }
 
     private fun getViewModelJavaClass(): Class<vm> {

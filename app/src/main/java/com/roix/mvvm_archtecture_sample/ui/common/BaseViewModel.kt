@@ -73,7 +73,7 @@ abstract class BaseViewModel : ViewModel() {
                 observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun <T> toLiveDataFun(observable: Observable<T>): LiveData<T> {
+    fun <T> subInLiveDataFun(observable: Observable<T>): LiveData<T> {
         val ret = MutableLiveData<T>()
         subscription.add(
                 observable
@@ -89,7 +89,7 @@ abstract class BaseViewModel : ViewModel() {
         return ret
     }
 
-    fun <T> Observable<T>.toObserverbleField(): ObservableField<T> {
+    fun <T> Observable<T>.subInObserverbleField(): ObservableField<T> {
         val ret = ObservableField<T>()
         sub { t ->
             ret.set(t)
@@ -97,11 +97,11 @@ abstract class BaseViewModel : ViewModel() {
         return ret
     }
 
-    fun <T> Single<T>.toObserverbleField(): ObservableField<T> = toObservable().toObserverbleField()
+    fun <T> Single<T>.subInObserverbleField(): ObservableField<T> = toObservable().subInObserverbleField()
 
-    fun <T> Observable<T>.toLiveData(): LiveData<T> = this@BaseViewModel.toLiveDataFun(this)
+    fun <T> Observable<T>.subInLiveData(): LiveData<T> = this@BaseViewModel.subInLiveDataFun(this)
 
-    fun <T> Single<T>.toLiveData(): LiveData<T> = this@BaseViewModel.toLiveDataFun(this.toObservable())
+    fun <T> Single<T>.subInLiveData(): LiveData<T> = this@BaseViewModel.subInLiveDataFun(this.toObservable())
 
     fun <T> Observable<T>.sub(function: (T) -> Unit) {
         subscription.add(

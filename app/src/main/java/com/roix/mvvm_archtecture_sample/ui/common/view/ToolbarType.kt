@@ -1,7 +1,9 @@
 package com.roix.mvvm_archtecture_sample.ui.common.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import com.roix.mvvm_archtecture_sample.R
 
 /**
@@ -27,12 +29,12 @@ data class ToolbarType(val visible: Boolean,
         @DrawableRes
         private var icon = R.drawable.none
         private var title = ""
-        private var backgroundColor: Int = R.color.colorPrimary
-        private var titleColor: Int = android.R.color.white
-        private var iconColor: Int = android.R.color.white
-        private var elevation: Int = android.R.color.white
+        private var backgroundColor: Int = ContextCompat.getColor(context,R.color.colorPrimary)
+        private var titleColor: Int = ContextCompat.getColor(context,android.R.color.white)
+        private var iconColor: Int = ContextCompat.getColor(context,android.R.color.white)
+        private var elevation: Int = ContextCompat.getColor(context,android.R.color.white)
         private var subtitle = ""
-        private var subtitleColor: Int = android.R.color.white
+        private var subtitleColor: Int = ContextCompat.getColor(context,android.R.color.white)
 
         fun default():ToolbarType.Builder{
             return Builder(context)
@@ -78,6 +80,13 @@ data class ToolbarType(val visible: Boolean,
             this.subtitleColor = subtitleColor
             return this
         }
+
+        @SuppressLint("ResourceAsColor")
+        fun setBackgroundColor(id:Int):Builder{
+            backgroundColor=ContextCompat.getColor(context,id)
+            return this
+        }
+
 
         fun build(): ToolbarType {
             return ToolbarType(visible, icon, title, subtitle, elevation, backgroundColor, iconColor, titleColor, subtitleColor)

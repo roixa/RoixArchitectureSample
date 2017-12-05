@@ -73,19 +73,21 @@ abstract class BaseViewModel : ViewModel() {
                 observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun <T> Observable<T>.sub(function: (T) -> Unit) {
+        subscription.add(
+                withLoadingHandle().
+                        withDefaultShedulers().
+                        subscribe({ T ->
+                            function.invoke(T)
+                        }, { t -> errorLiveData.postValue(t) })
+        )
+    }
+
     fun <T> subInLiveDataFun(observable: Observable<T>): LiveData<T> {
         val ret = MutableLiveData<T>()
-        subscription.add(
-                observable
-                        .withDefaultShedulers()
-                        .withLoadingHandle()
-                        .subscribe({ t ->
-                            run {
-                                ret.value = t
-                            }
-                        }, { t -> errorLiveData.value = t })
-        )
-
+        observable.sub { t ->
+            ret.value=t
+        }
         return ret
     }
 
@@ -102,16 +104,6 @@ abstract class BaseViewModel : ViewModel() {
     fun <T> Observable<T>.subInLiveData(): LiveData<T> = this@BaseViewModel.subInLiveDataFun(this)
 
     fun <T> Single<T>.subInLiveData(): LiveData<T> = this@BaseViewModel.subInLiveDataFun(this.toObservable())
-
-    fun <T> Observable<T>.sub(function: (T) -> Unit) {
-        subscription.add(
-                withLoadingHandle().
-                        withDefaultShedulers().
-                        subscribe({ T ->
-                            function.invoke(T)
-                        }, { t -> errorLiveData.postValue(t) })
-        )
-    }
 
     fun <T> Single<T>.sub(function: (T) -> Unit) = this.toObservable().sub { T -> function.invoke(T) }
 

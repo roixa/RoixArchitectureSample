@@ -11,8 +11,7 @@ import android.widget.LinearLayout
 import com.roix.mvvm_archtecture_sample.BR
 import com.roix.mvvm_archtecture_sample.R
 import com.roix.mvvm_archtecture_sample.databinding.MenuItemBinding
-import com.roix.mvvm_archtecture_sample.ui.common.BaseDatabindingActivity
-import com.roix.mvvm_archtecture_sample.ui.common.BaseViewModel
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
 import com.roix.mvvm_archtecture_sample.ui.common.view.ToolbarType
 import kotlinx.android.synthetic.main.toolbar.view.*
 
@@ -25,10 +24,10 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
 
     override fun setupUi() {
         super.setupUi()
-        setupToolbar(buildToolbar(ToolbarType.Builder(this).default()).build())
+        setupToolbar(configureToolbar(ToolbarType.Builder(this).default()).build())
     }
 
-    protected fun buildToolbar(defaultToolbarType: ToolbarType.Builder): ToolbarType.Builder {
+    protected open fun configureToolbar(defaultToolbarType: ToolbarType.Builder): ToolbarType.Builder {
         return defaultToolbarType
     }
 
@@ -36,7 +35,7 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
     fun setupToolbar(toolbarType: ToolbarType) {
         //setSupportActionBar(getToolbar())
         binding.setVariable(BR.toolbarType, toolbarType)
-        val toolbar=getToolbar()
+        val toolbar = getToolbar()
         if (toolbar != null) {
             toolbar.navigation_tb
                     .setOnClickListener({
@@ -57,8 +56,9 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
      * @param onClickListener action on click
      */
     @CallSuper
-    fun addToolbarItem(@DrawableRes drawableIcon: Int, onClickListener: View.OnClickListener) {
-        val toolbar=getToolbar()
+    fun addToolbarItem(@DrawableRes drawableIcon: Int, onClickListener: View.OnClickListener):
+            View? {
+        val toolbar = getToolbar()
         if (toolbar != null) {
             val view = LayoutInflater.from(this).inflate(R.layout.menu_item, getToolbar(), false)
             view.setOnClickListener(onClickListener)
@@ -66,21 +66,25 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
             itemContainer.addView(view)
             val menuItemBinding = MenuItemBinding.bind(view)
             menuItemBinding.icon = ContextCompat.getDrawable(this, drawableIcon)
+            return view
         }
+        return null
     }
 
     @CallSuper
-    fun addToolbarItem(view: View) {
-        val toolbar=getToolbar()
+    fun addToolbarItem(view: View): View? {
+        val toolbar = getToolbar()
 
         if (toolbar != null) {
             val itemContainer = toolbar.ll_items as LinearLayout
             itemContainer.addView(view)
+            return view
         }
+        return null
     }
 
     fun clearToolbarItems() {
-        val toolbar=getToolbar()
+        val toolbar = getToolbar()
 
         if (toolbar != null) {
             val itemContainer = toolbar.ll_items as LinearLayout

@@ -29,14 +29,14 @@ data class ToolbarType(val visible: Boolean,
         @DrawableRes
         private var icon = R.drawable.none
         private var title = ""
-        private var backgroundColor: Int = ContextCompat.getColor(context,R.color.colorPrimary)
-        private var titleColor: Int = ContextCompat.getColor(context,android.R.color.white)
-        private var iconColor: Int = ContextCompat.getColor(context,android.R.color.white)
-        private var elevation: Int = ContextCompat.getColor(context,android.R.color.white)
+        private var backgroundColor: Int = ContextCompat.getColor(context, R.color.colorPrimary)
+        private var titleColor: Int = ContextCompat.getColor(context, android.R.color.white)
+        private var iconColor: Int = ContextCompat.getColor(context, android.R.color.white)
+        private var elevation: Int = ContextCompat.getColor(context, android.R.color.white)
         private var subtitle = ""
-        private var subtitleColor: Int = ContextCompat.getColor(context,android.R.color.white)
+        private var subtitleColor: Int = ContextCompat.getColor(context, android.R.color.white)
 
-        fun default():ToolbarType.Builder{
+        fun default(): ToolbarType.Builder {
             return Builder(context)
                     .setTitle(context.getString(R.string.app_name))
                     .setVisible()
@@ -82,8 +82,8 @@ data class ToolbarType(val visible: Boolean,
         }
 
         @SuppressLint("ResourceAsColor")
-        fun setBackgroundColor(id:Int):Builder{
-            backgroundColor=ContextCompat.getColor(context,id)
+        fun setBackgroundColor(id: Int): Builder {
+            backgroundColor = ContextCompat.getColor(context, id)
             return this
         }
 

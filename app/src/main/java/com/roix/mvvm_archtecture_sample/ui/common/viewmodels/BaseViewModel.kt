@@ -1,4 +1,4 @@
-package com.roix.mvvm_archtecture_sample.ui.common
+package com.roix.mvvm_archtecture_sample.ui.common.viewmodels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -7,6 +7,7 @@ import android.databinding.ObservableField
 import android.support.annotation.CallSuper
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
+import com.roix.mvvm_archtecture_sample.utils.livedata.LoadingLiveData
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,13 +20,12 @@ import io.reactivex.schedulers.Schedulers
 abstract class BaseViewModel : ViewModel() {
 
 
-    val loadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingLiveData: LoadingLiveData = LoadingLiveData()
     val errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
     val showMessageDialogLiveData: MutableLiveData<String> = MutableLiveData()
 
 
     private var viewsCount = 0
-    private var loadingCount = 0
     private val subscription: CompositeDisposable = CompositeDisposable()
 
     abstract fun doInject(appComponent: AppComponent)
@@ -56,17 +56,26 @@ abstract class BaseViewModel : ViewModel() {
         subscription.dispose()
     }
 
-    fun <T> Observable<T>.withLoadingHandle(): Observable<T> {
+    fun <T> Observable<T>.withDefaultLoadingHandle(): Observable<T> {
+        return withLoadingLiveData(loadingLiveData)
+    }
+
+    fun <T> Observable<T>.withLoadingLiveData(loadingLiveData: LoadingLiveData): Observable<T> {
         return doOnSubscribe({
-            loadingCount++
-            loadingLiveData.postValue(true)
+            loadingLiveData.onStartLoad()
         }).doAfterTerminate({
-            loadingCount--
-            if (loadingCount <= 0) {
-                loadingLiveData.postValue(false)
-            }
+            loadingLiveData.onEndLoad()
         })
     }
+
+    fun <T> Single<T>.withLoadingLiveData(loadingLiveData: LoadingLiveData): Single<T> {
+        return doOnSubscribe({
+            loadingLiveData.onStartLoad()
+        }).doAfterTerminate({
+            loadingLiveData.onEndLoad()
+        })
+    }
+
 
     fun <T> Observable<T>.withDefaultShedulers(): Observable<T> {
         return subscribeOn(Schedulers.io()).
@@ -75,7 +84,7 @@ abstract class BaseViewModel : ViewModel() {
 
     fun <T> Observable<T>.sub(function: (T) -> Unit) {
         subscription.add(
-                withLoadingHandle().
+                withDefaultLoadingHandle().
                         withDefaultShedulers().
                         subscribe({ T ->
                             function.invoke(T)

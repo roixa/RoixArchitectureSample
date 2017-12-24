@@ -37,7 +37,7 @@ data class ToolbarType(val visible: Boolean,
         private var subtitleColor: Int = ContextCompat.getColor(context,android.R.color.white)
 
         fun default():ToolbarType.Builder{
-            return Builder(context)
+            return this
                     .setTitle(context.getString(R.string.app_name))
                     .setVisible()
                     .setBackIcon()

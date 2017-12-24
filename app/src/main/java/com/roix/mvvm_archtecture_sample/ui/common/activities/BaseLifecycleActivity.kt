@@ -1,4 +1,4 @@
-package com.roix.mvvm_archtecture_sample.ui.common
+package com.roix.mvvm_archtecture_sample.ui.common.activities
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -11,6 +11,7 @@ import android.support.annotation.IdRes
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.roix.mvvm_archtecture_sample.R
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.reflect.ParameterizedType

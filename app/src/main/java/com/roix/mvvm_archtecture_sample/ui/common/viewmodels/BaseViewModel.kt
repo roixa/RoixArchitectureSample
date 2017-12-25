@@ -36,7 +36,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     @CallSuper
-    fun onBindView() {
+    open fun onBindView() {
         if (viewsCount == 0) {
             onBindFirstView()
         }
@@ -68,15 +68,6 @@ abstract class BaseViewModel : ViewModel() {
         })
     }
 
-    fun <T> Single<T>.withLoadingLiveData(loadingLiveData: LoadingLiveData): Single<T> {
-        return doOnSubscribe({
-            loadingLiveData.onStartLoad()
-        }).doAfterTerminate({
-            loadingLiveData.onEndLoad()
-        })
-    }
-
-
     fun <T> Observable<T>.withDefaultShedulers(): Observable<T> {
         return subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread())
@@ -95,7 +86,7 @@ abstract class BaseViewModel : ViewModel() {
     fun <T> subInLiveDataFun(observable: Observable<T>): LiveData<T> {
         val ret = MutableLiveData<T>()
         observable.sub { t ->
-            ret.value=t
+            ret.value = t
         }
         return ret
     }
@@ -116,5 +107,12 @@ abstract class BaseViewModel : ViewModel() {
 
     fun <T> Single<T>.sub(function: (T) -> Unit) = this.toObservable().sub { T -> function.invoke(T) }
 
+    fun <T> Single<T>.withLoadingLiveData(loadingLiveData: LoadingLiveData): Single<T> {
+        return doOnSubscribe({
+            loadingLiveData.onStartLoad()
+        }).doAfterTerminate({
+            loadingLiveData.onEndLoad()
+        })
+    }
 
 }

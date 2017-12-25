@@ -11,8 +11,8 @@ import android.widget.LinearLayout
 import com.roix.mvvm_archtecture_sample.BR
 import com.roix.mvvm_archtecture_sample.R
 import com.roix.mvvm_archtecture_sample.databinding.MenuItemBinding
-import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
 import com.roix.mvvm_archtecture_sample.ui.common.view.ToolbarType
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 /**
@@ -22,6 +22,7 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
 
     abstract fun getToolbar(): Toolbar?
 
+    @CallSuper
     override fun setupUi() {
         super.setupUi()
         setupToolbar(configureToolbar(ToolbarType.Builder(this).default()).build())
@@ -32,7 +33,7 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
     }
 
     @CallSuper
-    fun setupToolbar(toolbarType: ToolbarType) {
+    open fun setupToolbar(toolbarType: ToolbarType) {
         //setSupportActionBar(getToolbar())
         binding.setVariable(BR.toolbarType, toolbarType)
         val toolbar = getToolbar()
@@ -55,9 +56,7 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
      * @param drawableIcon    item icon
      * @param onClickListener action on click
      */
-    @CallSuper
-    fun addToolbarItem(@DrawableRes drawableIcon: Int, onClickListener: View.OnClickListener):
-            View? {
+    fun addToolbarItem(@DrawableRes drawableIcon: Int, onClickListener: View.OnClickListener): View? {
         val toolbar = getToolbar()
         if (toolbar != null) {
             val view = LayoutInflater.from(this).inflate(R.layout.menu_item, getToolbar(), false)
@@ -71,7 +70,6 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
         return null
     }
 
-    @CallSuper
     fun addToolbarItem(view: View): View? {
         val toolbar = getToolbar()
 
@@ -95,14 +93,14 @@ abstract class BaseToolbarActivity<ViewModel : BaseViewModel, DataBinding : View
     /**
      * Finishes activity.
      */
-    protected fun goBack() {
+    protected open fun goBack() {
         supportFinishAfterTransition()
     }
 
     /**
      * Open navigation view when click on hamburger
      */
-    protected fun openNavigationView() {
+    protected open fun openNavigationView() {
         // Need to override in child
     }
 

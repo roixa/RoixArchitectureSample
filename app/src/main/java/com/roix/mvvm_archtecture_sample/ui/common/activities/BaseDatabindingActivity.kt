@@ -15,7 +15,6 @@ abstract class BaseDatabindingActivity<vm : BaseViewModel, DataBinding : ViewDat
 
     override fun setupUi() {
         super.setupUi()
-
         setupBinding()
     }
 

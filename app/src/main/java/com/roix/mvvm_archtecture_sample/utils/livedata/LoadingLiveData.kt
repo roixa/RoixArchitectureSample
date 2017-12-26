@@ -8,7 +8,7 @@ import android.arch.lifecycle.LiveData
 
 class LoadingLiveData : LiveData<Boolean>() {
 
-    private var loadingCount = 0
+    @Volatile private var loadingCount = 0
 
     fun onStartLoad() {
         loadingCount++

@@ -20,6 +20,9 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'SERVER_ENDPOINT', '"http://2ch.hk/"'
+        buildConfigField 'String', 'SERVER_URL_END', '".json"'
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +41,8 @@ dependencies {
     final def retrofitVersion = "2.3.0"
     final def okhttpVersion = "3.8.1"
     final def architectureComponentsVersion = "1.0.0"
+    final def permissionVersion = "2.4.0"
+
 
     //arcitecture components
     implementation "android.arch.lifecycle:common-java8:$architectureComponentsVersion"
@@ -61,6 +66,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     kapt "com.android.databinding:compiler:$android_plugin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Permission Dispatcher
+    implementation "com.github.hotchemi:permissionsdispatcher:$permissionVersion"
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:$permissionVersion"
 
     // Support
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"

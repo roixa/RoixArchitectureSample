@@ -1,5 +1,6 @@
 package com.roix.mvvm_archtecture_sample.ui.main.viewmodels
 
+import android.util.Log
 import com.roix.mvvm_archtecture_sample.buissness.main.IMainInteractor
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
@@ -25,7 +26,12 @@ class MainViewModel : BaseViewModel() {
             showMessageDialogLiveData.setValueNoHistory(s)
             requestTestObservableField.set(s)
         }
+
+        mainInteractor.getThreads(1).sub { list ->
+            Log.d("roix",list.size.toString())
+        }
     }
+
 
     val requestTestLiveData by lazy {
         mainInteractor.testRequest().map { t -> t }.subInLiveData()

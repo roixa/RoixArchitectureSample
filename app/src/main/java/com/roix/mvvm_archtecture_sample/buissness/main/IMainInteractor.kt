@@ -1,5 +1,6 @@
 package com.roix.mvvm_archtecture_sample.buissness.main
 
+import com.roix.mvvm_archtecture_sample.data.models.ThreadHeader
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -8,4 +9,6 @@ import io.reactivex.Single
  */
 interface IMainInteractor {
     fun testRequest(): Single<String>
+
+    fun getThreads(page:Int): Single<List<ThreadHeader>>
 }

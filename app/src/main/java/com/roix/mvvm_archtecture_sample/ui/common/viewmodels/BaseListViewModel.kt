@@ -10,9 +10,16 @@ import com.roix.mvvm_archtecture_sample.buissness.common.BaseListInteractor
 
 abstract class BaseListViewModel<Item> : BaseViewModel() {
 
-    private val mList: ObservableList<Item> = ObservableArrayList<Item>()
+    val list: ObservableList<Item> = ObservableArrayList<Item>()
 
     protected abstract fun getInteractor(): BaseListInteractor<Item>
+
+    override fun onBindFirstView() {
+        super.onBindFirstView()
+        getInteractor().loadNextItems().sub {
+            l -> list.addAll(l)
+        }
+    }
 
 
 }

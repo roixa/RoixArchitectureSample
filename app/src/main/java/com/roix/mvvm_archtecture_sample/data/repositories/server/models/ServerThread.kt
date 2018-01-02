@@ -1,12 +1,12 @@
 package com.roix.mvvm_archtecture_sample.data.repositories.server.models
 
 import com.roix.mvvm_archtecture_sample.data.Parseble
-import com.roix.mvvm_archtecture_sample.data.models.ThreadHeader
+import com.roix.mvvm_archtecture_sample.data.models.ThreadItem
 
 /**
  * Created by belyalov on 26.12.2017.
  */
-class ServerThread : Parseble<ThreadHeader> {
+class ServerThread : Parseble<ThreadItem> {
 
     var posts: List<ServerPost>? = null
 
@@ -19,7 +19,7 @@ class ServerThread : Parseble<ThreadHeader> {
         return false
     }
 
-    override fun parse(): ThreadHeader = posts!![0].parse()
+    override fun parse(): ThreadItem = posts!![0].parse()
 
 
 }

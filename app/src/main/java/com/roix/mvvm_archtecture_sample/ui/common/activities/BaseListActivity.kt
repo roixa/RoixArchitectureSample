@@ -1,7 +1,6 @@
 package com.roix.mvvm_archtecture_sample.ui.common.activities
 
 import android.databinding.ViewDataBinding
-import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -24,12 +23,10 @@ abstract class BaseListActivity<ViewModel : BaseListViewModel<Item>, DataBinding
         setupRecyclerView(getRecyclerView())
     }
 
-    @CallSuper
     protected open fun setupRecyclerView(recyclerView: RecyclerView) {
-        val mAdapter = BaseObservableAdapter<Item, ItemDataBinding>(viewModel.list, getItemLayoutId())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@BaseListActivity)
-            adapter = mAdapter
+            adapter = BaseObservableAdapter<Item, ItemDataBinding>(viewModel.list, getItemLayoutId())
         }
 
     }

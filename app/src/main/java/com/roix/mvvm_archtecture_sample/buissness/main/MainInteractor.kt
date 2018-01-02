@@ -1,7 +1,7 @@
 package com.roix.mvvm_archtecture_sample.buissness.main
 
-import com.roix.mvvm_archtecture_sample.buissness.common.BaseListInteractor
-import com.roix.mvvm_archtecture_sample.data.models.ThreadHeader
+import com.roix.mvvm_archtecture_sample.buissness.common.IBaseListInteractor
+import com.roix.mvvm_archtecture_sample.data.models.ThreadItem
 import com.roix.mvvm_archtecture_sample.data.repositories.server.IServerRepository
 import io.reactivex.Single
 import javax.inject.Inject
@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by roix on 29.11.2017.
  */
-class MainInteractor : IMainInteractor, BaseListInteractor<ThreadHeader> {
+class MainInteractor : IMainInteractor, IBaseListInteractor<ThreadItem> {
 
 
     private val serverRepository: IServerRepository
@@ -18,11 +18,10 @@ class MainInteractor : IMainInteractor, BaseListInteractor<ThreadHeader> {
         this.serverRepository = serverRepository
     }
 
-    override fun loadItems(page: Int): Single<List<ThreadHeader>> = serverRepository.getThreads(page)
+    override fun loadItems(page: Int): Single<List<ThreadItem>> = serverRepository.getThreads(page)
 
     override fun testRequest(): Single<String> = serverRepository.getTestRequest()
 
-    override fun getThreads(page: Int): Single<List<ThreadHeader>> = serverRepository.getThreads(page)
-
+    override fun getThreads(page: Int): Single<List<ThreadItem>> = serverRepository.getThreads(page)
 
 }

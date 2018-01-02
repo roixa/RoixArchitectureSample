@@ -3,7 +3,7 @@ package com.roix.mvvm_archtecture_sample.ui.main.views
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.roix.mvvm_archtecture_sample.R
-import com.roix.mvvm_archtecture_sample.data.models.ThreadHeader
+import com.roix.mvvm_archtecture_sample.data.models.ThreadItem
 import com.roix.mvvm_archtecture_sample.databinding.ActivityMainBinding
 import com.roix.mvvm_archtecture_sample.databinding.ItemThreadBinding
 import com.roix.mvvm_archtecture_sample.ui.common.activities.BaseListActivity
@@ -11,7 +11,7 @@ import com.roix.mvvm_archtecture_sample.ui.common.view.ToolbarType
 import com.roix.mvvm_archtecture_sample.ui.main.viewmodels.MainViewModel
 
 
-class MainActivity : BaseListActivity<MainViewModel, ActivityMainBinding,ItemThreadBinding,ThreadHeader>() {
+class MainActivity : BaseListActivity<MainViewModel, ActivityMainBinding,ItemThreadBinding, ThreadItem>() {
 
 
     override fun getRecyclerView(): RecyclerView = binding.rv

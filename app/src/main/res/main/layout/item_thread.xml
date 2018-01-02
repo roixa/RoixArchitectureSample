@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.roix.mvvm_archtecture_sample.data.models.ThreadHeader" />
+            type="com.roix.mvvm_archtecture_sample.data.models.ThreadItem" />
     </data>
 
     <android.support.constraint.ConstraintLayout

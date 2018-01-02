@@ -1,10 +1,10 @@
 package com.roix.mvvm_archtecture_sample.ui.main.viewmodels
 
 import android.util.Log
-import com.roix.mvvm_archtecture_sample.buissness.common.BaseListInteractor
+import com.roix.mvvm_archtecture_sample.buissness.common.IBaseListInteractor
 import com.roix.mvvm_archtecture_sample.buissness.main.MainInteractor
 import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
-import com.roix.mvvm_archtecture_sample.data.models.ThreadHeader
+import com.roix.mvvm_archtecture_sample.data.models.ThreadItem
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseListViewModel
 import com.roix.mvvm_archtecture_sample.utils.extensions.setValueNoHistory
 import javax.inject.Inject
@@ -12,11 +12,11 @@ import javax.inject.Inject
 /**
  * Created by roix on 30.11.2017.
  */
-class MainViewModel : BaseListViewModel<ThreadHeader>() {
+class MainViewModel : BaseListViewModel<ThreadItem>() {
     @Inject
     protected lateinit var mainInteractor: MainInteractor
 
-    override fun getInteractor(): BaseListInteractor<ThreadHeader> = mainInteractor
+    override fun getInteractor(): IBaseListInteractor<ThreadItem> = mainInteractor
 
 
 

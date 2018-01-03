@@ -22,6 +22,7 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel() {
         loadNextItems().sub { l ->
             list.addAll(l)
         }
+
     }
 
     protected fun loadNextItems(): Single<List<Item>> {

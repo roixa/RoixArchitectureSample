@@ -2,7 +2,7 @@ package com.roix.mvvm_archtecture_sample.ui.common.activities
 
 import android.databinding.ViewDataBinding
 import android.support.annotation.LayoutRes
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import com.roix.mvvm_archtecture_sample.ui.common.adapters.BaseObservableAdapter
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseListViewModel
@@ -19,16 +19,14 @@ abstract class BaseListActivity<ViewModel : BaseListViewModel<Item>, DataBinding
 
     protected abstract fun getRecyclerView(): RecyclerView
 
+    protected abstract fun getSwipeToRefreshLayout(): SwipeRefreshLayout?
+
     override fun setupUi() {
         super.setupUi()
-        setupRecyclerView(getRecyclerView())
+        viewModel.setupRecyclerView(getRecyclerView(),
+                BaseObservableAdapter<Item, ItemDataBinding>(viewModel.items, getItemLayoutId()),
+                getSwipeToRefreshLayout()
+        )
     }
 
-    protected open fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = BaseObservableAdapter<Item, ItemDataBinding>(viewModel.list, getItemLayoutId())
-        }
-
-    }
 }

@@ -1,5 +1,6 @@
 package com.roix.mvvm_archtecture_sample.ui.main.views
 
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.roix.mvvm_archtecture_sample.R
@@ -15,6 +16,8 @@ class MainActivity : BaseListActivity<MainViewModel, ActivityMainBinding,ItemThr
 
 
     override fun getRecyclerView(): RecyclerView = binding.rv
+
+    override fun getSwipeToRefreshLayout(): SwipeRefreshLayout? = binding.srl
 
     override fun getToolbar(): Toolbar? = binding.toolbar.tb
 

@@ -1,4 +1,4 @@
-package com.roix.mvvm_archtecture_sample.utils.livedata
+package com.roix.mvvm_archtecture_sample.ui.common.loading
 
 import android.arch.lifecycle.LiveData
 
@@ -6,16 +6,16 @@ import android.arch.lifecycle.LiveData
  * Created by belyalov on 19.12.2017.
  */
 
-class LoadingLiveData : LiveData<Boolean>() {
+class LoadingLiveData : LiveData<Boolean>(), ILoadingObserver {
 
     @Volatile private var loadingCount = 0
 
-    fun onStartLoad() {
+    override fun onStartLoad() {
         loadingCount++
         postValue(true)
     }
 
-    fun onEndLoad() {
+    override fun onEndLoad() {
         loadingCount--
         if (loadingCount <= 0) postValue(false)
     }

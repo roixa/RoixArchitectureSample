@@ -4,12 +4,12 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.annotation.CallSuper
 import com.android.databinding.library.baseAdapters.BR
-import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseDatabindingViewModel
 
 /**
  * Created by roix on 02.12.2017.
  */
-abstract class BaseDatabindingActivity<vm : BaseViewModel, DataBinding : ViewDataBinding> : BaseLifecycleActivity<vm>() {
+abstract class BaseDatabindingActivity<vm : BaseDatabindingViewModel, DataBinding : ViewDataBinding> : BaseLifecycleActivity<vm>() {
 
     protected lateinit var binding: DataBinding
 

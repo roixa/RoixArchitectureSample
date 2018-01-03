@@ -11,7 +11,7 @@ import android.support.annotation.IdRes
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.roix.mvvm_archtecture_sample.R
-import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseViewModel
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.reflect.ParameterizedType
@@ -19,7 +19,7 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by belyalov on 01.12.2017.
  */
-abstract class BaseLifecycleActivity<vm : BaseViewModel> : AppCompatActivity() {
+abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatActivity() {
 
 
     @IdRes

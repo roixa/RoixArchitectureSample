@@ -9,7 +9,7 @@ import io.reactivex.Single
  * Created by roix on 26.12.2017.
  */
 
-abstract class BaseListViewModel<Item> : BaseViewModel() {
+abstract class BaseListViewModel<Item> : BaseDatabindingViewModel() {
 
     val list: ObservableList<Item> = ObservableArrayList<Item>()
 

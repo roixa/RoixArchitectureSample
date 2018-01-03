@@ -13,6 +13,7 @@ import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseListViewModel
 abstract class BaseListActivity<ViewModel : BaseListViewModel<Item>, DataBinding : ViewDataBinding, ItemDataBinding : ViewDataBinding, Item>
     : BaseToolbarActivity<ViewModel, DataBinding>() {
 
+
     @LayoutRes
     protected abstract fun getItemLayoutId(): Int
 
@@ -25,7 +26,7 @@ abstract class BaseListActivity<ViewModel : BaseListViewModel<Item>, DataBinding
 
     protected open fun setupRecyclerView(recyclerView: RecyclerView) {
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@BaseListActivity)
+            layoutManager = LinearLayoutManager(context)
             adapter = BaseObservableAdapter<Item, ItemDataBinding>(viewModel.list, getItemLayoutId())
         }
 

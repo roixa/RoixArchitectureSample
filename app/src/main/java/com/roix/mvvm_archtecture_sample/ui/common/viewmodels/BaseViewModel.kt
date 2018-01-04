@@ -17,9 +17,6 @@ import io.reactivex.schedulers.Schedulers
  */
 abstract class BaseViewModel : ViewModel() {
 
-
-
-
     private var viewsCount = 0
     protected val subscription: CompositeDisposable = CompositeDisposable()
 
@@ -61,7 +58,6 @@ abstract class BaseViewModel : ViewModel() {
                 observeOn(AndroidSchedulers.mainThread())
     }
 
-
     fun <T> Observable<T>.withLoadingHandle(loading: ILoadingObserver): Observable<T> {
         return doOnSubscribe({
             loading.onStartLoad()
@@ -78,11 +74,9 @@ abstract class BaseViewModel : ViewModel() {
         })
     }
 
-
     abstract fun <T> Observable<T>.withDefaultLoadingHandle(): Observable<T>
 
     abstract fun <T> Observable<T>.defaultErrorHandle(error: Throwable)
-
 
     fun <T> Observable<T>.sub(function: (T) -> Unit) {
         subscription.add(
@@ -95,6 +89,4 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun <T> Single<T>.sub(function: (T) -> Unit) = this.toObservable().sub { T -> function.invoke(T) }
-
-
 }

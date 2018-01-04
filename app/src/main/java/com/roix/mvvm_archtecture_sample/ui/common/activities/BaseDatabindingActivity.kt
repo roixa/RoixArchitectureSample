@@ -9,7 +9,7 @@ import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseDatabindingView
 /**
  * Created by roix on 02.12.2017.
  */
-abstract class BaseDatabindingActivity<vm : BaseDatabindingViewModel, DataBinding : ViewDataBinding> : BaseLifecycleActivity<vm>() {
+abstract class BaseDatabindingActivity<ViewModel : BaseDatabindingViewModel, DataBinding : ViewDataBinding> : BaseLifecycleActivity<ViewModel>() {
 
     protected lateinit var binding: DataBinding
 

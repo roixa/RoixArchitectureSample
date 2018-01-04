@@ -7,18 +7,15 @@ import android.databinding.ViewDataBinding
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.roix.mvvm_archtecture_sample.buissness.common.IBaseListInteractor
 import com.roix.mvvm_archtecture_sample.ui.common.adapters.BaseObservableAdapter
-import com.roix.mvvm_archtecture_sample.ui.common.loading.ILoadingObserver
-import com.roix.mvvm_archtecture_sample.utils.binding.BindingObservableUtils
 import io.reactivex.Single
 
 /**
  * Created by roix on 26.12.2017.
  */
 
-abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObserver {
+abstract class BaseListViewModel<Item> : BaseDatabindingViewModel() {
 
     val items: ObservableList<Item> = ObservableArrayList<Item>()
 
@@ -55,14 +52,6 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
             items.addAll(l)
             stateList.set(StateList.DATA)
         }
-        BindingObservableUtils.getFieldObservable(stateList).subscribe {
-            Log.d("boux", "statelist " + stateList.get())
-        }
-        BindingObservableUtils.getListObservable(items).subscribe {
-            Log.d("boux", "items " + items.size)
-        }
-
-
     }
 
     //override if needs
@@ -74,9 +63,9 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
     //override if needs
     protected open fun getMaxPage(): Int = Int.MAX_VALUE
 
-    open fun isLoading(): Boolean = stateList.get().equals(StateList.EMPTY_PROGRESS) || stateList.get().equals(StateList.PAGE_PROGRESS)
+    protected open fun isLoading(): Boolean = stateList.get().equals(StateList.EMPTY_PROGRESS) || stateList.get().equals(StateList.PAGE_PROGRESS)
 
-    open fun isLastPage(): Boolean = mNextPage > getMaxPage()
+    protected open fun isLastPage(): Boolean = mNextPage > getMaxPage()
 
     fun refresh() {
         mNextPage = getMinPage()
@@ -84,9 +73,9 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
         loadNextItems().subList { list ->
             items.clear()
             items.addAll(list)
-            if(items.isEmpty()){
+            if (items.isEmpty()) {
                 stateList.set(StateList.EMPTY_DATA)
-            }else{
+            } else {
                 stateList.set(StateList.DATA)
             }
         }
@@ -99,8 +88,6 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
                 e.onSuccess(emptyList())
             })
         } else {
-            Log.d("boux", "loadNextItems page " + mNextPage)
-
             return getInteractor()
                     .loadItems(mNextPage)
                     .map { t ->
@@ -112,10 +99,9 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
     }
 
 
-    fun <T> Single<T>.subList(function: (T) -> Unit) {
+    private fun <T> Single<T>.subList(function: (T) -> Unit) {
         subscription.add(
                 toObservable()
-                        .withLoadingHandle(this@BaseListViewModel)
                         .withDefaultShedulers()
                         .subscribe({ t ->
                             function.invoke(t)
@@ -123,15 +109,6 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
                             listErrorHandle(e)
                         })
         )
-    }
-
-
-    //only had to list progress
-    override fun onStartLoad() {
-    }
-
-    override fun onEndLoad() {
-        // just empty implementation
     }
 
     private fun listErrorHandle(error: Throwable) {
@@ -142,7 +119,7 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
         }
     }
 
-    inner class PaginationScrollListener(val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+    private inner class PaginationScrollListener(val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
@@ -159,9 +136,9 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
                     }
                     loadNextItems().subList { list ->
                         items.addAll(list)
-                        if(items.isEmpty()){
+                        if (items.isEmpty()) {
                             stateList.set(StateList.EMPTY_DATA)
-                        }else{
+                        } else {
                             stateList.set(StateList.DATA)
                         }
                     }
@@ -171,7 +148,7 @@ abstract class BaseListViewModel<Item> : BaseDatabindingViewModel(), ILoadingObs
         }
     }
 
-    inner class SwipeToRefreshListListener : SwipeRefreshLayout.OnRefreshListener {
+    private inner class SwipeToRefreshListListener : SwipeRefreshLayout.OnRefreshListener {
         override fun onRefresh() {
             refresh()
         }

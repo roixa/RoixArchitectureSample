@@ -34,7 +34,6 @@ abstract class BaseToolbarActivity<ViewModel : BaseDatabindingViewModel, DataBin
 
     @CallSuper
     open fun setupToolbar(toolbarType: ToolbarType) {
-        //setSupportActionBar(getToolbar())
         binding.setVariable(BR.toolbarType, toolbarType)
         val toolbar = getToolbar()
         if (toolbar != null) {

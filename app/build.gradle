@@ -42,6 +42,7 @@ dependencies {
     final def okhttpVersion = "3.8.1"
     final def architectureComponentsVersion = "1.0.0"
     final def permissionVersion = "2.4.0"
+    final def picassoVersion = "2.5.2"
 
 
     //arcitecture components
@@ -70,6 +71,9 @@ dependencies {
     // Permission Dispatcher
     implementation "com.github.hotchemi:permissionsdispatcher:$permissionVersion"
     kapt "com.github.hotchemi:permissionsdispatcher-processor:$permissionVersion"
+
+    //Picasso
+    compile "com.squareup.picasso:picasso:$picassoVersion"
 
     // Support
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"

@@ -19,14 +19,14 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by belyalov on 01.12.2017.
  */
-abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatActivity() {
+abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCompatActivity() {
 
 
     @IdRes
     abstract fun getLayoutId(): Int
 
 
-    protected lateinit var viewModel: vm
+    protected lateinit var viewModel: ViewModel
 
     private lateinit var progressDialog: ProgressDialog
 
@@ -80,8 +80,8 @@ abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatAct
         viewModel.subInLiveDataFun(this.toObservable()).sub(func)
     }
 
-    private fun getViewModelJavaClass(): Class<vm> {
-        return (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<vm>
+    private fun getViewModelJavaClass(): Class<ViewModel> {
+        return (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<ViewModel>
     }
 
 }

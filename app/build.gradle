@@ -44,7 +44,6 @@ dependencies {
     final def permissionVersion = "2.4.0"
     final def picassoVersion = "2.5.2"
 
-
     //arcitecture components
     implementation "android.arch.lifecycle:common-java8:$architectureComponentsVersion"
     implementation "android.arch.lifecycle:extensions:$architectureComponentsVersion"

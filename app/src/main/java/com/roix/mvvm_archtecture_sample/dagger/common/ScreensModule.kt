@@ -1,6 +1,7 @@
 package com.roix.mvvm_archtecture_sample.dagger.common
 
 import com.roix.mvvm_archtecture_sample.dagger.main.MainModule
+import com.roix.mvvm_archtecture_sample.dagger.simple.SimpleModule
 import dagger.Module
 
 /**
@@ -9,5 +10,6 @@ import dagger.Module
 @ViewModelScope
 @Module(includes = arrayOf(
         MainModule::class
+        ,SimpleModule::class
 ))
 class ScreensModule

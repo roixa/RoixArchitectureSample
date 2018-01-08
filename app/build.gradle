@@ -33,6 +33,15 @@ android {
     }
     buildToolsVersion '26.0.2'
 }
+kapt {
+    generateStubs = true
+
+    arguments {
+        arg("toothpick_registry_package_name", "com.roix.mvvm_archtecture_sample")
+        arg("toothpick_registry_children_package_names", "toothpick.smoothie")
+    }
+}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -44,9 +53,9 @@ dependencies {
     final def permissionVersion = "2.4.0"
 
     //toothpick
-    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.1.1'
-    // and for android -> compile 'com.github.stephanenicolas.toothpick:smoothie:1.1.1'
-    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.1.1'
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.0.8'
+    compile 'com.github.stephanenicolas.toothpick:smoothie:1.0.8'
+    kapt 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.0.8'
 
 
 

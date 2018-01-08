@@ -7,7 +7,6 @@ import toothpick.config.Module
 /**
  * Created by roix on 08.01.2018.
  */
-@MainViewModelScope
 class MainModule : Module() {
     init {
         bind(IMainInteractor::class.java).to(MainInteractor::class.java).instancesInScope()

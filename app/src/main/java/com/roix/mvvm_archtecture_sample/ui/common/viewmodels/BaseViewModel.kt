@@ -4,32 +4,30 @@ import android.arch.lifecycle.ViewModel
 import android.support.annotation.CallSuper
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.ui.common.loading.ILoadingObserver
+import com.roix.mvvm_archtecture_sample.utils.rx.general.RxSchedulersAbs
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import toothpick.Scope
 import toothpick.Toothpick
 import toothpick.config.Module
+import javax.inject.Inject
 
 /**
  * Created by belyalov on 01.12.2017.
  */
 abstract class BaseViewModel : ViewModel() {
 
-
     private var viewsCount = 0
-    protected val subscription: CompositeDisposable = CompositeDisposable()
 
-    private lateinit var viewModelScope: Scope
+    protected val subscription: CompositeDisposable = CompositeDisposable()
 
     protected abstract fun getModule(): Module
 
-    protected abstract fun getViewModelScope(): Class<BaseViewModel>
+    private lateinit var viewModelScope: Scope
 
-    protected abstract fun doInject(scope: Scope)
+    @Inject lateinit var rxScheduler: RxSchedulersAbs
 
     @CallSuper
     open fun onBindView(application: CommonApplication) {
@@ -41,12 +39,9 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected open fun proceedInject(application: CommonApplication) {
-        viewModelScope = Toothpick.openScope(getViewModelScope())
+        viewModelScope = Toothpick.openScopes(application, this)
         viewModelScope.installModules(getModule())
-        doInject(viewModelScope)
-        //interactor = viewModelScope.getInstance(getInteractorlJavaClass())
-        val applicationScope = Toothpick.openScope(application)
-        //interactor.doInject(applicationScope)
+        Toothpick.inject(this, viewModelScope)
     }
 
 
@@ -65,13 +60,11 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     open fun <T> Observable<T>.withDefaultShedulers(): Observable<T> {
-        return subscribeOn(Schedulers.io()).
-                observeOn(AndroidSchedulers.mainThread())
+        return compose(rxScheduler.getIOToMainTransformer())
     }
 
     open fun Completable.withDefaultShedulers(): Completable {
-        return subscribeOn(Schedulers.io()).
-                observeOn(AndroidSchedulers.mainThread())
+        return compose(rxScheduler.getIoToMainTransformerCompletable())
     }
 
 

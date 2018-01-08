@@ -13,6 +13,7 @@ class SimpleViewModel :BaseDatabindingViewModel() {
     @Inject
     protected lateinit var simpleInteractor :ISimpleInteractor
 
+
     override fun doInject(appComponent: AppComponent) {
         appComponent.inject(this)
     }

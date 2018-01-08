@@ -11,6 +11,7 @@ import android.support.annotation.IdRes
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.roix.mvvm_archtecture_sample.R
+import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -19,14 +20,14 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by belyalov on 01.12.2017.
  */
-abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatActivity() {
+abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCompatActivity() {
 
 
     @IdRes
     abstract fun getLayoutId(): Int
 
 
-    protected lateinit var viewModel: vm
+    protected lateinit var viewModel: ViewModel
 
     private lateinit var progressDialog: ProgressDialog
 
@@ -47,7 +48,7 @@ abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatAct
 
         viewModel.loadingLiveData.sub { b -> handleProgress(b) }
         viewModel.showMessageDialogLiveData.sub { s -> this.showMessageDialog(s) }
-        viewModel.onBindView()
+        viewModel.onBindView(application as CommonApplication)
 
     }
 
@@ -80,8 +81,8 @@ abstract class BaseLifecycleActivity<vm : BaseLifecycleViewModel> : AppCompatAct
         viewModel.subInLiveDataFun(this.toObservable()).sub(func)
     }
 
-    private fun getViewModelJavaClass(): Class<vm> {
-        return (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<vm>
+    private fun getViewModelJavaClass(): Class<ViewModel> {
+        return (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<ViewModel>
     }
 
 }

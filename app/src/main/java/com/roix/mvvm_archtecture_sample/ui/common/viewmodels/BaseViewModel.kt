@@ -3,7 +3,6 @@ package com.roix.mvvm_archtecture_sample.ui.common.viewmodels
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.CallSuper
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
-import com.roix.mvvm_archtecture_sample.dagger.common.AppComponent
 import com.roix.mvvm_archtecture_sample.ui.common.loading.ILoadingObserver
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -11,6 +10,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import toothpick.Scope
+import toothpick.Toothpick
+import toothpick.config.Module
 
 /**
  * Created by belyalov on 01.12.2017.
@@ -18,25 +20,35 @@ import io.reactivex.schedulers.Schedulers
 abstract class BaseViewModel : ViewModel() {
 
 
-
-
     private var viewsCount = 0
     protected val subscription: CompositeDisposable = CompositeDisposable()
 
-    abstract fun doInject(appComponent: AppComponent)
+    private lateinit var viewModelScope: Scope
 
-    //TODO maybe create more correct inject
-    init {
-        doInject(CommonApplication.appComponent)
-    }
+    protected abstract fun getModule(): Module
+
+    protected abstract fun getViewModelScope(): Class<BaseViewModel>
+
+    protected abstract fun doInject(scope: Scope)
 
     @CallSuper
-    open fun onBindView() {
+    open fun onBindView(application: CommonApplication) {
+        proceedInject(application)
         if (viewsCount == 0) {
             onBindFirstView()
         }
         viewsCount++
     }
+
+    protected open fun proceedInject(application: CommonApplication) {
+        viewModelScope = Toothpick.openScope(getViewModelScope())
+        viewModelScope.installModules(getModule())
+        doInject(viewModelScope)
+        //interactor = viewModelScope.getInstance(getInteractorlJavaClass())
+        val applicationScope = Toothpick.openScope(application)
+        //interactor.doInject(applicationScope)
+    }
+
 
     @CallSuper
     protected open fun onBindFirstView() {
@@ -49,6 +61,7 @@ abstract class BaseViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
+        Toothpick.closeScope(viewModelScope)
     }
 
     open fun <T> Observable<T>.withDefaultShedulers(): Observable<T> {
@@ -56,7 +69,7 @@ abstract class BaseViewModel : ViewModel() {
                 observeOn(AndroidSchedulers.mainThread())
     }
 
-    open fun Completable.withDefaultShedulers(): Completable{
+    open fun Completable.withDefaultShedulers(): Completable {
         return subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread())
     }

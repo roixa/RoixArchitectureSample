@@ -43,6 +43,12 @@ dependencies {
     final def architectureComponentsVersion = "1.0.0"
     final def permissionVersion = "2.4.0"
 
+    //toothpick
+    compile 'com.github.stephanenicolas.toothpick:toothpick-runtime:1.1.1'
+    // and for android -> compile 'com.github.stephanenicolas.toothpick:smoothie:1.1.1'
+    annotationProcessor 'com.github.stephanenicolas.toothpick:toothpick-compiler:1.1.1'
+
+
 
     //arcitecture components
     implementation "android.arch.lifecycle:common-java8:$architectureComponentsVersion"

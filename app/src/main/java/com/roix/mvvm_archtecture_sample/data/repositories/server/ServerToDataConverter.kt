@@ -1,7 +1,7 @@
 package com.roix.mvvm_archtecture_sample.data.repositories.server
 
-import com.roix.mvvm_archtecture_sample.data.InfoException
-import com.roix.mvvm_archtecture_sample.data.Parseble
+import com.roix.mvvm_archtecture_sample.data.repositories.common.InfoException
+import com.roix.mvvm_archtecture_sample.data.repositories.common.Parseble
 
 /**
  * Created by belyalov on 26.12.2017.

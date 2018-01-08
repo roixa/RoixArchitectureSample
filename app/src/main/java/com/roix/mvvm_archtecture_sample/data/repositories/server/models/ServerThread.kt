@@ -1,7 +1,7 @@
 package com.roix.mvvm_archtecture_sample.data.repositories.server.models
 
-import com.roix.mvvm_archtecture_sample.data.Parseble
 import com.roix.mvvm_archtecture_sample.data.models.ThreadItem
+import com.roix.mvvm_archtecture_sample.data.repositories.common.Parseble
 
 /**
  * Created by belyalov on 26.12.2017.

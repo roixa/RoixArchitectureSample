@@ -26,7 +26,7 @@ class MainActivity : BaseListActivity<MainViewModel, ActivityMainBinding,ItemThr
     override fun getItemLayoutId(): Int = R.layout.item_thread
 
     override fun configureToolbar(defaultToolbarType: ToolbarType.Builder): ToolbarType.Builder {
-        return defaultToolbarType.setTitle(" roix architecture").setNavigationIcon()
+        return defaultToolbarType.setTitle(" roix architecture")
     }
 
 }

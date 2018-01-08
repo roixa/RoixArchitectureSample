@@ -5,8 +5,8 @@ android {
         main {
             res.srcDirs = [
                     "src/main/res/common"
-                    ,
-                    "src/main/res/main"
+                    , "src/main/res/main"
+                    , "src/main/res/simple"
             ]
         }
     }

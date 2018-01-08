@@ -17,6 +17,8 @@ class LoadingLiveData : LiveData<Boolean>(), ILoadingObserver {
 
     override fun onEndLoad() {
         loadingCount--
-        if (loadingCount <= 0) postValue(false)
+        if (loadingCount <= 0){
+            postValue(false)
+        }
     }
 }

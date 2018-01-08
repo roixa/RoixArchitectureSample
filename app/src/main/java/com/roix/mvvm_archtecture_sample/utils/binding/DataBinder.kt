@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import android.widget.ImageView
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseListViewModel
+import com.squareup.picasso.Picasso
 
 /**
  * Created by roix on 05.12.2017.
@@ -23,9 +24,9 @@ fun setSrcVector(imageView: ImageView, @DrawableRes res: Int) {
     imageView.setImageResource(res)
 }
 
-@BindingAdapter("bind:srcCompat")
-fun setSrcCompat(imageView: ImageView, @DrawableRes res: Int) {
-    imageView.setImageResource(res)
+@BindingAdapter("bind:imageUrl")
+fun setImageUrl(imageView: ImageView, url: String) {
+    Picasso.with(imageView.context).load(url).into(imageView)
 }
 
 @BindingAdapter("bind:refreshing")
@@ -41,10 +42,5 @@ fun setTint(view: ImageView, @ColorRes colorRes: Int) {
 
 @BindingAdapter("bind:tintColor")
 fun setTintColor(view: ImageView, color: Int) {
-    view.setColorFilter(color)
-}
-
-@BindingAdapter("bind:colorInt")
-fun setColorInt(view: ImageView, color: Int) {
     view.setColorFilter(color)
 }

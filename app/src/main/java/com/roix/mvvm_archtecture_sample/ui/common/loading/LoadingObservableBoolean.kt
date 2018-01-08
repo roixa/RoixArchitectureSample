@@ -17,7 +17,9 @@ class LoadingObservableBoolean : ObservableBoolean(), ILoadingObserver {
 
     override fun onEndLoad() {
         loadingCount--
-        if (loadingCount <= 0) set(false)
+        if (loadingCount <= 0){
+            set(false)
+        }
     }
 
 }

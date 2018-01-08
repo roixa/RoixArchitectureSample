@@ -32,6 +32,11 @@ abstract class BaseLifecycleViewModel : BaseViewModel() {
         return ret
     }
 
+    fun <T>MutableLiveData<T>.setValueNoHistory(t:T){
+        value=(t)
+        value=(null)
+    }
+
     fun <T> Observable<T>.subInLiveData(): LiveData<T> = this@BaseLifecycleViewModel.subInLiveDataFun(this)
 
     fun <T> Single<T>.subInLiveData(): LiveData<T> = this@BaseLifecycleViewModel.subInLiveDataFun(this.toObservable())

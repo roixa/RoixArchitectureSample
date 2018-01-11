@@ -31,8 +31,8 @@ abstract class BaseViewModel : ViewModel() {
 
     @CallSuper
     open fun onBindView(application: CommonApplication) {
-        proceedInject(application)
         if (viewsCount == 0) {
+            proceedInject(application)
             onBindFirstView()
         }
         viewsCount++

@@ -37,9 +37,7 @@ class MainActivity : BaseListActivity<MainViewModel, ActivityMainBinding,ItemThr
                 .setOnItemClickListener{rv,a,b->
 
                 }
-        viewModel.interactor.testRequest().sub {
-
-        }
+        viewModel.interactor.testRequest().sub {}
     }
 
 }

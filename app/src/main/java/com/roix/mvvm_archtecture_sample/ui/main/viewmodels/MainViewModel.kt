@@ -33,9 +33,7 @@ class MainViewModel : BaseListViewModel<ThreadItem>() {
 
     override fun onBindFirstView() {
         super.onBindFirstView()
-        interactor.testRequest().sub { s ->
-
-        }
+        interactor.testRequest().sub { s -> }
         showMessageDialogLiveData.value="saas"
         showMessageDialogLiveData.setValueNoHistory("sasd")
         showMessageDialogLiveData.postValue("dadad")

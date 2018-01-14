@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
@@ -9,7 +10,7 @@
 
         <variable
             name="viewmodel"
-            type="com.roix.mvvm_archtecture_sample.ui.main.viewmodels.MainViewModel" />
+            type="com.roix.mvvm_archtecture_sample.ui.simple.viewmodels.SimpleViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -21,6 +22,16 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
             bind:toolbarType="@{toolbarType}" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"></LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -1,6 +1,7 @@
 package com.roix.mvvm_archtecture_sample.buissness.simple
 
 import com.roix.mvvm_archtecture_sample.data.repositories.server.IServerRepository
+import com.roix.mvvm_archtecture_sample.data.repositories.server.ServerRepository
 import javax.inject.Inject
 
 /**
@@ -10,7 +11,7 @@ class SimpleInteractor: ISimpleInteractor {
 
     private val serverRepository: IServerRepository
 
-    @Inject constructor(serverRepository: IServerRepository) {
+    @Inject constructor(serverRepository: ServerRepository) {
         this.serverRepository = serverRepository
     }
 

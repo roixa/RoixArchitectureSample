@@ -1,0 +1,31 @@
+package com.roix.mvvm_archtecture_sample.ui.common.fragments
+
+import android.databinding.ViewDataBinding
+import android.support.annotation.LayoutRes
+import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.RecyclerView
+import com.roix.mvvm_archtecture_sample.ui.common.adapters.BaseObservableAdapter
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseListViewModel
+
+/**
+ * Created by roix on 14.01.2018.
+ */
+abstract class BaseListFragment<ViewModel : BaseListViewModel<Item>, DataBinding : ViewDataBinding, ItemDataBinding : ViewDataBinding, Item>
+    : BaseDatabindingFragment<ViewModel, DataBinding>() {
+
+    @LayoutRes
+    protected abstract fun getItemLayoutId(): Int
+
+    protected abstract fun getRecyclerView(): RecyclerView
+
+    protected abstract fun getSwipeToRefreshLayout(): SwipeRefreshLayout?
+
+    override fun setupUi() {
+        super.setupUi()
+        viewModel.setupRecyclerView(getRecyclerView(),
+                BaseObservableAdapter<Item, ItemDataBinding>(viewModel.items, getItemLayoutId()),
+                getSwipeToRefreshLayout()
+        )
+    }
+
+}

@@ -1,6 +1,7 @@
 package com.roix.mvvm_archtecture_sample.application
 
 import android.app.Application
+import android.util.Log
 import com.roix.mvvm_archtecture_sample.BuildConfig
 import com.roix.mvvm_archtecture_sample.FactoryRegistry
 import com.roix.mvvm_archtecture_sample.MemberInjectorRegistry

@@ -16,7 +16,7 @@ class SimpleActivity : BaseSingleFragmentActivity<SimpleViewModel, ActivitySimpl
     override fun getLayoutId(): Int = R.layout.activity_simple
 
 
-    override fun getToolbar(): Toolbar? = binding.toolbar.tb
+    override fun getToolbar(): Toolbar? = binding.toolbar!!.tb
 
 
     override fun configureToolbar(defaultToolbarType: ToolbarType.Builder): ToolbarType.Builder {

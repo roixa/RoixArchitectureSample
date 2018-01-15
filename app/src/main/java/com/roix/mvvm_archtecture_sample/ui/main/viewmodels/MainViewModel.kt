@@ -24,11 +24,7 @@ class MainViewModel : BaseListViewModel<ThreadItem>() {
     override fun getModule(): Module = MainModule()
 
     val requestTestLiveData by lazy {
-        interactor.testRequest().map { t -> t }.subInLiveData()
-    }
-
-    val requestTestObservableField by lazy {
-        interactor.testRequest().subInObserverbleField()
+        interactor.testRequest().map { t -> t }.toLiveData()
     }
 
     override fun onBindFirstView() {

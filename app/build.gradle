@@ -14,6 +14,12 @@ android {
     dataBinding {
         enabled true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.roix.mvvm_archtecture_sample"
         minSdkVersion 21
@@ -31,8 +37,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.1'
+
+
+
 }
+
+
+
 kapt {
     generateStubs = true
 
@@ -42,10 +54,9 @@ kapt {
     }
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    final def supportLibraryVersion = "26.1.0"
+    final def supportLibraryVersion = "27.0.1"
     final def retrofitVersion = "2.3.0"
     final def okhttpVersion = "3.8.1"
     final def architectureComponentsVersion = "1.0.0"
@@ -66,9 +77,9 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$architectureComponentsVersion"
 
     //room
-    implementation "android.arch.persistence.room:runtime:$architectureComponentsVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$architectureComponentsVersion"
-    implementation "android.arch.persistence.room:rxjava2:$architectureComponentsVersion"
+    //implementation "android.arch.persistence.room:runtime:$architectureComponentsVersion"
+    //annotationProcessor "android.arch.persistence.room:compiler:$architectureComponentsVersion"
+    //implementation "android.arch.persistence.room:rxjava2:$architectureComponentsVersion"
 
     // RxJava 2
     implementation 'io.reactivex.rxjava2:rxjava:2.1.1'

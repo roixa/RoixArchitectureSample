@@ -12,13 +12,13 @@ import com.roix.mvvm_archtecture_sample.BR
 import com.roix.mvvm_archtecture_sample.R
 import com.roix.mvvm_archtecture_sample.databinding.MenuItemBinding
 import com.roix.mvvm_archtecture_sample.ui.common.view.ToolbarType
-import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseDatabindingViewModel
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 /**
  * Created by roix on 05.12.2017.
  */
-abstract class BaseToolbarActivity<ViewModel : BaseDatabindingViewModel, DataBinding : ViewDataBinding> : BaseDatabindingActivity<ViewModel, DataBinding>() {
+abstract class BaseToolbarActivity<ViewModel : BaseLifecycleViewModel, DataBinding : ViewDataBinding> : BaseDatabindingActivity<ViewModel, DataBinding>() {
 
     abstract fun getToolbar(): Toolbar?
 

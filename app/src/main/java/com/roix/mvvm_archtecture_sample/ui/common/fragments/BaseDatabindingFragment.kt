@@ -3,6 +3,7 @@ package com.roix.mvvm_archtecture_sample.ui.common.fragments
 import android.annotation.SuppressLint
 import android.app.Fragment
 import android.app.ProgressDialog
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -20,6 +21,8 @@ import com.android.databinding.library.baseAdapters.BR
 import com.roix.mvvm_archtecture_sample.R
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.reflect.ParameterizedType
@@ -46,7 +49,7 @@ abstract class BaseDatabindingFragment<ViewModel : BaseLifecycleViewModel, DataB
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+        binding = DataBindingUtil.inflate(inflater!!, getLayoutId(), container, false)
         setupUi()
         setupBinding()
         return binding.root
@@ -59,13 +62,18 @@ abstract class BaseDatabindingFragment<ViewModel : BaseLifecycleViewModel, DataB
 
     protected open fun setupUi() {
         progressDialog = ProgressDialog(activity)
-        progressDialog.setMessage(getString(R.string.text_dialog_progress))
-        progressDialog.setCancelable(false)
+        progressDialog.run {
+            setMessage(getString(R.string.text_dialog_progress))
+            setCancelable(false)
+        }
     }
 
     @CallSuper
     protected open fun setupBinding() {
-        binding.setVariable(BR.viewmodel,viewModel)
+        with(binding) {
+            setVariable(BR.viewmodel,viewModel)
+            setLifecycleOwner(activity as LifecycleOwner)
+        }
     }
 
 
@@ -101,11 +109,19 @@ abstract class BaseDatabindingFragment<ViewModel : BaseLifecycleViewModel, DataB
     }
 
     protected fun <T> Observable<T>.sub(func: (T) -> Unit) {
-        viewModel.subInLiveDataFun(this).sub(func)
+        viewModel.toLiveDataFun(this).sub(func)
     }
 
     protected fun <T> Single<T>.sub(func: (T) -> Unit) {
-        viewModel.subInLiveDataFun(this.toObservable()).sub(func)
+        viewModel.toLiveDataFun(this.toObservable()).sub(func)
+    }
+
+    protected fun <T> Completable.sub(func: (T) -> Unit) {
+        viewModel.toLiveDataFun(this.toObservable<T>()).sub(func)
+    }
+
+    protected fun <T> Flowable<T>.sub(func: (T) -> Unit) {
+        viewModel.toLiveDataFun(this.toObservable()).sub(func)
     }
 
     private fun getViewModelJavaClass(): Class<ViewModel> {

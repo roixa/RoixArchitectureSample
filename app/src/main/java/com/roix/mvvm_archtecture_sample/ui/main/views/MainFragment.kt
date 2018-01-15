@@ -20,5 +20,7 @@ class MainFragment : BaseListFragment<MainViewModel, ActivityMainBinding,ItemThr
 
     override fun getItemLayoutId(): Int = R.layout.item_thread
 
+    override fun handleProgress(isProgress: Boolean) {
 
+    }
 }

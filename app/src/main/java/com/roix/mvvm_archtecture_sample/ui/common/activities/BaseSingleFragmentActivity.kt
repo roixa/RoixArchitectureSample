@@ -3,13 +3,13 @@ package com.roix.mvvm_archtecture_sample.ui.common.activities
 import android.databinding.ViewDataBinding
 import android.support.annotation.IdRes
 import com.roix.mvvm_archtecture_sample.ui.common.fragments.BaseDatabindingFragment
-import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseDatabindingViewModel
+import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
 
 
 /**
  * Created by roix on 14.01.2018.
  */
-abstract class BaseSingleFragmentActivity<ViewModel : BaseDatabindingViewModel, DataBinding : ViewDataBinding> : BaseToolbarActivity<ViewModel, DataBinding>() {
+abstract class BaseSingleFragmentActivity<ViewModel : BaseLifecycleViewModel, DataBinding : ViewDataBinding> : BaseToolbarActivity<ViewModel, DataBinding>() {
 
     @IdRes protected abstract fun getFragmentContainerId(): Int
 

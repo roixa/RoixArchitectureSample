@@ -9,10 +9,12 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.IdRes
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.widget.Toast
 import com.roix.mvvm_archtecture_sample.R
 import com.roix.mvvm_archtecture_sample.application.CommonApplication
 import com.roix.mvvm_archtecture_sample.ui.common.viewmodels.BaseLifecycleViewModel
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.reflect.ParameterizedType
@@ -57,7 +59,6 @@ abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCo
 
     }
 
-    @CallSuper
     protected open fun handleProgress(isProgress: Boolean) {
         if (isProgress) {
             progressDialog.show()
@@ -66,10 +67,8 @@ abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCo
         }
     }
 
-    @CallSuper
     protected open fun showMessageDialog(message: String) {
-        Log.d("roixa", "showMessageDialog " + message)
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
     }
 
     protected fun <T> LiveData<T>.sub(func: (T) -> Unit) {
@@ -77,11 +76,19 @@ abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCo
     }
 
     protected fun <T> Observable<T>.sub(func: (T) -> Unit) {
-        viewModel.subInLiveDataFun(this).sub(func)
+        viewModel.toLiveDataFun(this).sub(func)
     }
 
     protected fun <T> Single<T>.sub(func: (T) -> Unit) {
-        viewModel.subInLiveDataFun(this.toObservable()).sub(func)
+        viewModel.toLiveDataFun(this.toObservable()).sub(func)
+    }
+
+    protected fun <T> Completable.sub(func: (T) -> Unit) {
+        viewModel.toLiveDataFun(this.toObservable<T>()).sub(func)
+    }
+
+    protected fun <T> Flowable<T>.sub(func: (T) -> Unit) {
+        viewModel.toLiveDataFun(this.toObservable()).sub(func)
     }
 
     private fun getViewModelJavaClass(): Class<ViewModel> {

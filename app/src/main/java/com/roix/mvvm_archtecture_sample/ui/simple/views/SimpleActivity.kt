@@ -20,7 +20,7 @@ class SimpleActivity : BaseSingleFragmentActivity<SimpleViewModel, ActivitySimpl
 
 
     override fun configureToolbar(defaultToolbarType: ToolbarType.Builder): ToolbarType.Builder {
-        return defaultToolbarType.setTitle(" roix architecture")
+        return defaultToolbarType.setTitle(" roix architecture").setSubtitle("bouxroix")
     }
 
     override fun setupUi() {

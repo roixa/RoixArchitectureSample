@@ -57,6 +57,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:text="@{toolbarType.subtitle}"
+                android:textColor="@{toolbarType.subtitleColor}"
                 tools:ignore="ContentDescription"
                 tools:text="Subtitle" />
 

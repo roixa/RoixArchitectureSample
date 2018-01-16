@@ -24,10 +24,8 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCompatActivity() {
 
-
     @IdRes
     abstract fun getLayoutId(): Int
-
 
     protected lateinit var viewModel: ViewModel
 
@@ -47,6 +45,7 @@ abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCo
         val viewModel = ViewModelProviders.of(this).get(clazz)
         viewModel.loadingLiveData.sub { b -> handleProgress(b) }
         viewModel.showMessageDialogLiveData.sub { s -> this.showMessageDialog(s) }
+        viewModel.errorLiveData.sub { t -> handleError(t) }
         viewModel.onBindView(application as CommonApplication)
         return viewModel
     }
@@ -68,7 +67,11 @@ abstract class BaseLifecycleActivity<ViewModel : BaseLifecycleViewModel> : AppCo
     }
 
     protected open fun showMessageDialog(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG)
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    protected open fun handleError(throwable: Throwable){
+        Toast.makeText(this,throwable.message,Toast.LENGTH_LONG).show()
     }
 
     protected fun <T> LiveData<T>.sub(func: (T) -> Unit) {

@@ -19,6 +19,4 @@ class MainInteractor : IMainInteractor, IBaseListInteractor<ThreadItem> {
 
     override fun testRequest(): Single<String> = serverRepository.getTestRequest()
 
-    override fun getThreads(page: Int): Single<List<ThreadItem>> = serverRepository.getThreads(page)
-
 }

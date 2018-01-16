@@ -1,7 +1,6 @@
 package com.roix.mvvm_archtecture_sample.application
 
 import android.app.Application
-import android.util.Log
 import com.roix.mvvm_archtecture_sample.BuildConfig
 import com.roix.mvvm_archtecture_sample.FactoryRegistry
 import com.roix.mvvm_archtecture_sample.MemberInjectorRegistry
@@ -32,6 +31,5 @@ class CommonApplication : Application() {
         val appScope = Toothpick.openScope(this)
         appScope.installModules(SmoothieApplicationModule(this),ApplicationModule(this))
         appScope.bindScopeAnnotation(ApplicationScope::class.java)
-        Toothpick.inject(TopLevelCkass(),appScope)
     }
 }

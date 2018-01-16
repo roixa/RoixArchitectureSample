@@ -87,6 +87,7 @@ abstract class BaseDatabindingFragment<ViewModel : BaseLifecycleViewModel, DataB
         val viewModel = ViewModelProviders.of(activity as FragmentActivity).get(clazz)
         viewModel.loadingLiveData.sub { b -> handleProgress(b) }
         viewModel.showMessageDialogLiveData.sub { s -> this.showMessageDialog(s) }
+        viewModel.errorLiveData.sub { t -> handleError(t) }
         viewModel.onBindView(activity.application as CommonApplication)
         return viewModel
     }
@@ -101,7 +102,11 @@ abstract class BaseDatabindingFragment<ViewModel : BaseLifecycleViewModel, DataB
     }
 
     protected open fun showMessageDialog(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG)
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+
+    protected open fun handleError(throwable: Throwable){
+        Toast.makeText(activity,throwable.message,Toast.LENGTH_LONG).show()
     }
 
     protected fun <T> LiveData<T>.sub(func: (T) -> Unit) {
